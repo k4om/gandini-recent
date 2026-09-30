@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@import './shadcn.css';
+@import '@fontsource-variable/geist';
+
+@utility content-container {
+	max-width: 1200px;
+	margin-inline: auto;
+	padding-inline: 1.5rem;
+}
+
+@utility glass {
+	background: color-mix(in oklab, var(--background) 70%, transparent);
+	backdrop-filter: blur(12px);
+}
