@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
+    "target": "ES6",
+    "module": "esnext",
     "paths": {
       "$lib/*": ["./src/frontend/lib/*"],
     }
-  }
+  },
+  "exclude": [
+    "dist/",
+    "node_modules/"
+  ]
 }

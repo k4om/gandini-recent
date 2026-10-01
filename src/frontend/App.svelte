@@ -7,12 +7,17 @@
     CardHeader,
     CardTitle
   } from '$lib/components/ui/card'
-
+  
   let users = [
     { name: 'Alice', email: 'alice@example.com' },
     { name: 'Bob', email: 'bob@example.com' }
   ]
+
+  import { Header } from "$components/header"
 </script>
+
+
+<Header />
 
 <div class="min-h-screen bg-background">
   <main class="mx-auto max-w-5xl px-6 py-12">

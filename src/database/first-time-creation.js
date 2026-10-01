@@ -1,4 +1,4 @@
-function init() {
+function init(db) {
     db.exec(`
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -7,3 +7,5 @@ function init() {
         )
     `)
 }
+
+export default { init };

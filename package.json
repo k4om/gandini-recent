@@ -6,7 +6,7 @@
   "scripts": {
     "dev:vite": "vite",
     "dev:frontend": "node --watch src/index.js",
-    "dev": "concurrently \"$npm_execpath run dev:vite\" \"$npm_execpath run dev:frontend\"",
+    "dev": "concurrently --success all \"$npm_execpath run dev:vite\" \"$npm_execpath run dev:frontend\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "vite build",
     "start": "NODE_ENV=production node src/index.js"
@@ -17,6 +17,7 @@
   "dependencies": {
     "@fastify/static": "^10.1.5",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "better-sqlite3": "^13.0.3",
     "fastify": "^5.12.5",
     "mercurius": "^16.10.1"
   },
