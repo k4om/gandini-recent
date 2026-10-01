@@ -5,6 +5,7 @@ import Fastify from 'fastify'
 import FastifyStatic from '@fastify/static'
 import FastifyProxy from '@fastify/http-proxy';
 import GraphQLIntegration from './graphql/index.js';
+import { initDatabase } from './database/index.js';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -13,6 +14,7 @@ const fastify = Fastify({
   logger: true
 });
 
+initDatabase();
 GraphQLIntegration.init(fastify);
 
 fastify.get('/hello', async () => {
