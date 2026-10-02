@@ -1,0 +1,11 @@
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+extend type Mutation {
+  login(
+    nis: Int!
+    password: String!
+  ): AuthPayload!
+}

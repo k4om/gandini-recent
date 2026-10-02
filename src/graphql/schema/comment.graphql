@@ -1,0 +1,22 @@
+type Comment {
+  id: ID!
+  content: String!
+
+  user: User!
+  article: Article!
+
+  createdAt: DateTime!
+}
+
+extend type Query {
+  comments(
+    articleId: ID!
+  ): [Comment!]!
+}
+
+extend type Mutation {
+  createComment(
+    articleId: ID!
+    content: String!
+  ): Comment!
+}

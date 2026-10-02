@@ -13,10 +13,11 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      '$lib': path.resolve('src/frontend/lib'),
-      '$components': path.resolve('src/frontend/components')
+      '$lib': path.resolve('src/frontend/lib')
     }
   },
+
+  publicDir: 'public',
 
   build: {
     outDir: '../../dist',

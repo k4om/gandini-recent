@@ -5,7 +5,8 @@ import Fastify from 'fastify'
 import FastifyStatic from '@fastify/static'
 import FastifyProxy from '@fastify/http-proxy';
 import GraphQLIntegration from './graphql/index.js';
-import { initDatabase } from './database/index.js';
+import Database from './database/index.js';
+import RestAPI from './rest-api/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -14,27 +15,38 @@ const fastify = Fastify({
   logger: true
 });
 
-initDatabase();
-GraphQLIntegration.init(fastify);
+await Database.init();
+await GraphQLIntegration.init(fastify);
+await RestAPI.load(fastify);
 
 fastify.get('/hello', async () => {
   return { message: 'Hello from REST' }
 })
 
+//// API CODE HERE
+
 if ((process.env.NODE_ENV || 'development') === 'development') {
   await fastify.register(FastifyProxy, {
-    upstream: 'http://localhost:5173'
+    upstream: 'http://localhost:5173',
+    websocket: true
   })
 } else {
-  fastify.register(FastifyStatic, {
-    root: path.join(__dirname, '../dist'),
+  await fastify.register(FastifyStatic, {
+    root: [
+      path.join(__dirname, '../dist'),
+      path.join(__dirname, 'frontend/public')
+    ],
     prefix: '/'
-  })
+  });
 
   fastify.setNotFoundHandler((request, reply) => {
-    if (request.method === 'GET' &&
-      !request.url.startsWith('/api') &&
-      !request.url.startsWith('/graphql')) {
+    const url = request.url.split('?')[0]
+
+    if (
+      request.method === 'GET' &&
+      !url.startsWith('/api') &&
+      !url.startsWith('/graphql')
+    ) {
       return reply.sendFile('index.html')
     }
 

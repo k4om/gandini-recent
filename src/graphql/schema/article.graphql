@@ -1,0 +1,46 @@
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+type Article {
+  id: ID!
+  title: String!
+  slug: String!
+  content: String!
+  status: ArticleStatus!
+
+  author: User!
+
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  publishedAt: DateTime
+}
+
+input ArticleInput {
+  title: String!
+  slug: String!
+  content: String!
+}
+
+extend type Query {
+  articles(
+    limit: Int
+    offset: Int
+  ): [Article!]!
+
+  article(
+    id: ID
+    slug: String
+  ): Article
+}
+
+extend type Mutation {
+  createArticle(
+    input: ArticleInput!
+  ): Article!
+
+  publishArticle(
+    id: ID!
+  ): Article!
+}

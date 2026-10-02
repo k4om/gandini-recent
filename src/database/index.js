@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3'
 import FirstTime from './first-time-creation.js';
+import Dummy from './dummy.js';
 import { access, mkdir } from 'node:fs/promises'
 import { dirname } from 'node:path';
 
@@ -9,17 +10,26 @@ await mkdir(dirname(db_file), { recursive: true });
 let not_first_time = false;
 try {
     not_first_time = await access(db_file);
-} catch(err) {}
+} catch (err) { }
 
-export let db = null;
+export let __db = null;
 
-export function initDatabase() {
-    if (db) return;
+function init() {
+    if (__db) return;
 
-    db = new Database(db_file);
-    db.pragma('journal_mode = WAL');
+    __db = new Database(db_file);
+    __db.pragma('journal_mode = WAL');
 
     if (!not_first_time) {
-        FirstTime.init(db);
+        FirstTime.init(__db);
+        Dummy.init(__db);
     }
 }
+
+export default {
+    init,
+    get db() {
+        return __db;
+    },
+    db_file
+};

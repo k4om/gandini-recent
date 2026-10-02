@@ -13,7 +13,7 @@
     { name: 'Bob', email: 'bob@example.com' }
   ]
 
-  import { Header } from "$components/header"
+  import { Header } from "$lib/components/header"
 </script>
 
 

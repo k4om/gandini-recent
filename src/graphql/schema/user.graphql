@@ -1,0 +1,17 @@
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+type User {
+  id: ID!
+  nis: Int
+  name: String!
+  role: Role!
+  canWrite: Boolean!
+}
+
+extend type Query {
+  user(id: ID!): User
+}
