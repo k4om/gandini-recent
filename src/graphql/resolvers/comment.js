@@ -22,11 +22,19 @@ export default {
         )
       }
 
+      const content = args.content.trim()
+
+      if (!content) {
+        throw new Error(
+          'Comment cannot be empty'
+        )
+      }
+
 
       return CommentDB.create(
         args.articleId,
         ctx.user.id,
-        args.content
+        content
       )
 
     }
@@ -42,6 +50,10 @@ export default {
         FROM users
         WHERE id = ?
       `).get(comment.user_id)
+    },
+
+    createdAt(comment) {
+      return comment.created_at
     }
 
   }

@@ -1,5 +1,13 @@
 import Database from './index.js';
 
+function findById(id) {
+    return Database.db.prepare(`
+        SELECT *
+        FROM comments
+        WHERE id = ?
+    `).get(id);
+}
+
 function byArticle(articleId) {
     return Database.db.prepare(`
         SELECT *
@@ -23,7 +31,7 @@ function create(articleId, userId, content) {
         content
     );
 
-    return result.lastInsertRowid;
+    return findById(result.lastInsertRowid);
 }
 
 export default {

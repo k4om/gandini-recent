@@ -1,4 +1,5 @@
 import Database from '../../database/index.js'
+import { effectiveRole } from '../../auth/index.js'
 
 export default {
 
@@ -14,6 +15,10 @@ export default {
 
 
   User: {
+
+    role(parent) {
+      return effectiveRole(parent)
+    },
 
     canWrite(parent) {
       return Boolean(parent.can_write)

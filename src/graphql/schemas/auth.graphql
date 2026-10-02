@@ -4,8 +4,18 @@ type AuthPayload {
 }
 
 extend type Mutation {
-  login(
+  loginStudent(
     nis: Int!
+    password: String!
+  ): AuthPayload!
+
+  loginTeacher(
+    identifier: String!
+    password: String!
+  ): AuthPayload!
+
+  loginAdmin(
+    identifier: String!
     password: String!
   ): AuthPayload!
 }

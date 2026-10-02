@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs'
+
 function init(db) {
     db.exec(`
         CREATE TABLE IF NOT EXISTS users (
@@ -75,21 +77,27 @@ function init(db) {
 
 
     if (!admin) {
+        const password =
+            process.env.ADMIN_PASSWORD ||
+            (process.env.NODE_ENV !== 'production' ? 'admin' : null);
+
         db.prepare(`
             INSERT INTO users (
                 identifier,
                 name,
                 role,
                 is_admin,
-                can_write
+                can_write,
+                password_hash
             )
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?)
         `).run(
             'admin',
             'Administrator',
             'SPECIAL',
             1,
-            1
+            1,
+            password ? bcrypt.hashSync(password, 10) : null
         );
     }
 }

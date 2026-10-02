@@ -1,0 +1,164 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+OUTPUT="project-context.txt"
+
+# File/directory yang tidak perlu dikirim ke AI
+EXCLUDE_DIRS=(
+  "./node_modules"
+  "./dist"
+  "./data"
+  "./.git"
+)
+
+# Extension/file yang relevan untuk dibaca AI
+INCLUDE_FILES=(
+  "*.js"
+  "*.svelte"
+  "*.graphql"
+  "*.css"
+  "*.json"
+  "*.yaml"
+  "*.yml"
+  "*.md"
+  "*.html"
+  "*.ts"
+  "*.tsx"
+  "*.jsx"
+  "*.mjs"
+  "*.cjs"
+)
+
+# File yang jangan pernah ikut karena biasanya berisi binary / data besar / secret
+EXCLUDE_FILES=(
+  "pnpm-lock.yaml"
+  "*.db"
+  "*.db-shm"
+  "*.db-wal"
+  "*.png"
+  "*.jpg"
+  "*.jpeg"
+  "*.gif"
+  "*.webp"
+  "*.ico"
+  "*.woff"
+  "*.woff2"
+  "*.ttf"
+  "*.otf"
+  ".env"
+  ".env.*"
+)
+
+echo "Generating $OUTPUT..."
+
+{
+  echo "============================================================"
+  echo "PROJECT CONTEXT FOR AI REFACTORING"
+  echo "============================================================"
+  echo
+  echo "Generated: $(date)"
+  echo "Working directory: $(pwd)"
+  echo
+
+  echo "============================================================"
+  echo "PROJECT TREE"
+  echo "============================================================"
+  echo
+
+  if command -v tree >/dev/null 2>&1; then
+    tree \
+      -I 'node_modules|dist|data|.git|*.db|*.db-shm|*.db-wal' \
+      .
+  else
+    find . \
+      -not -path './node_modules/*' \
+      -not -path './dist/*' \
+      -not -path './data/*' \
+      -not -path './.git/*' \
+      -print
+  fi
+
+  echo
+  echo "============================================================"
+  echo "PACKAGE.JSON"
+  echo "============================================================"
+  echo
+
+  if [[ -f package.json ]]; then
+    cat package.json
+  fi
+
+  echo
+  echo "============================================================"
+  echo "SOURCE / CONFIG FILES"
+  echo "============================================================"
+
+  # Build find expression untuk extension yang diizinkan
+  FIND_EXPR=()
+
+  for pattern in "${INCLUDE_FILES[@]}"; do
+    FIND_EXPR+=( -name "$pattern" -o )
+  done
+
+  # Hapus "-o" terakhir
+  unset 'FIND_EXPR[${#FIND_EXPR[@]}-1]'
+
+  find . \
+    -type f \
+    \( "${FIND_EXPR[@]}" \) \
+    ! -path './node_modules/*' \
+    ! -path './dist/*' \
+    ! -path './data/*' \
+    ! -path './.git/*' \
+    ! -name 'pnpm-lock.yaml' \
+    ! -name '*.db' \
+    ! -name '*.db-shm' \
+    ! -name '*.db-wal' \
+    ! -name '*.png' \
+    ! -name '*.jpg' \
+    ! -name '*.jpeg' \
+    ! -name '*.gif' \
+    ! -name '*.webp' \
+    ! -name '*.ico' \
+    ! -name '*.woff' \
+    ! -name '*.woff2' \
+    ! -name '*.ttf' \
+    ! -name '*.otf' \
+    ! -name '.env' \
+    ! -name '.env.*' \
+    -print0 |
+  sort -z |
+  while IFS= read -r -d '' file; do
+
+    echo
+    echo
+    echo "------------------------------------------------------------"
+    echo "FILE: $file"
+    echo "------------------------------------------------------------"
+    echo
+
+    # Hindari memasukkan binary secara tidak sengaja
+    if file "$file" | grep -qi "text"; then
+      cat "$file"
+    else
+      echo "[SKIPPED: binary file]"
+    fi
+
+  done
+
+  echo
+  echo
+  echo "============================================================"
+  echo "END OF PROJECT CONTEXT"
+  echo "============================================================"
+
+} > "$OUTPUT"
+
+echo
+echo "Done."
+echo "Output: $OUTPUT"
+echo "Size: $(du -h "$OUTPUT" | cut -f1)"
+echo
+echo "Preview:"
+echo "  wc -l $OUTPUT"

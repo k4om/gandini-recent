@@ -6,6 +6,8 @@ import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import mercurius from 'mercurius'
 
+import { userFromRequest } from '../auth/index.js'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -53,9 +55,8 @@ export default {
 
       context: async (request) => ({
         request,
-
-        // inject db/service nanti di sini
-        db: fastify.db
+        db: fastify.db,
+        user: userFromRequest(request)
       })
     })
 

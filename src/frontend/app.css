@@ -1,135 +1,114 @@
-@import 'tailwindcss';
+/*
+ * Global styles.
+ * shadcn.css already pulls in tailwindcss, tw-animate-css and Geist,
+ * so we only import it here (the old file imported tailwind twice).
+ */
 @import './shadcn.css';
-@import '@fontsource-variable/geist';
 
-:root {
-  --page-width: 72rem;
+/* Centered page container used by every page */
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
+  padding-inline: 1rem;
+
+  @media (min-width: 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 64rem) {
+    padding-inline: 2rem;
+  }
 }
 
-
-body {
-  font-family: "Geist Variable", sans-serif;
-  background: var(--background);
-  color: var(--foreground);
-}
-
-
-.page {
-  max-width: var(--page-width);
-  margin: 0 auto;
-  padding: 4rem 1.5rem;
-}
-
-
-.hero {
-  max-width: 48rem;
-  margin-bottom: 5rem;
-}
-
-
-.eyebrow {
-  font-size: .875rem;
-  font-weight: 600;
-  color: oklch(0.55 0.15 250);
-  margin-bottom: 1rem;
-}
-
-
-.hero h1 {
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  line-height: .95;
-  letter-spacing: -.06em;
-  font-weight: 750;
-}
-
-
-.intro {
-  margin-top: 1.5rem;
-  max-width: 40rem;
-  color: var(--muted-foreground);
-  font-size: 1.2rem;
-  line-height: 1.6;
-}
-
-
-.featured {
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 3rem 0;
-  margin-bottom: 4rem;
-}
-
-
-.featured h2 {
-  max-width: 50rem;
-  margin-top: .75rem;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 1.05;
-  letter-spacing: -.04em;
-}
-
-
-.featured p {
-  max-width: 45rem;
-  margin-top: 1rem;
-  color: var(--muted-foreground);
-  font-size: 1.1rem;
-}
-
-
-.meta {
-  color: var(--muted-foreground);
-  font-size: .875rem;
-}
-
-
-a {
-  display: inline-block;
-  margin-top: 1.5rem;
-  font-weight: 500;
-}
-
-
-.latest h3 {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-
-.articles {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem 2rem;
-}
-
-
-.articles article {
-  border-top: 1px solid var(--border);
-  padding-top: 1.5rem;
-}
-
-
-.articles h4 {
-  margin-top: .75rem;
-  font-size: 1.4rem;
-  line-height: 1.2;
-  letter-spacing: -.02em;
-}
-
-
-.articles p {
-  margin-top: .75rem;
-  color: var(--muted-foreground);
-  line-height: 1.6;
-}
-
-
-@media (max-width: 768px) {
-  .page {
-    padding-top: 2rem;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
-  .articles {
-    grid-template-columns: 1fr;
+  body {
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 25%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Text inputs / textareas / selects */
+  .field {
+    width: 100%;
+    border: 1px solid var(--input);
+    border-radius: calc(var(--radius) * 1.4);
+    background: var(--background);
+    color: var(--foreground);
+    padding: 0.65rem 0.9rem;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+  }
+  .field::placeholder {
+    color: var(--muted-foreground);
+  }
+  .field:hover {
+    border-color: color-mix(in oklch, var(--foreground) 25%, var(--input));
+  }
+  .field:focus-visible {
+    outline: none;
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 30%, transparent);
+  }
+  .field:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Long-form article text */
+  .article-body {
+    max-width: 40rem;
+    font-size: 1.1875rem;
+    line-height: 1.85;
+    color: color-mix(in oklch, var(--foreground) 92%, transparent);
+  }
+  .article-body p {
+    white-space: pre-line;
+  }
+  .article-body p + p {
+    margin-top: 1.4em;
   }
 }

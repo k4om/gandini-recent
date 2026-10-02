@@ -76,9 +76,18 @@ function updateRole(id, role) {
     return findById(id);
 }
 
+function findByIdentifier(identifier) {
+    return Database.db.prepare(`
+        SELECT *
+        FROM users
+        WHERE identifier = ?
+    `).get(identifier);
+}
+
 export default {
     findById,
     findByNIS,
+    findByIdentifier,
     findAll,
     create,
     setCanWrite,
