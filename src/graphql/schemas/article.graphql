@@ -29,6 +29,11 @@ extend type Query {
     offset: Int
   ): [Article!]!
 
+  adminDraftArticles(
+    limit: Int,
+    offset: Int
+  ): [Article!]!
+
   article(
     id: ID
     slug: String

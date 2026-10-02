@@ -9,7 +9,7 @@
     "dev": "concurrently --success all \"$npm_execpath run dev:vite\" \"$npm_execpath run dev:start\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "vite build",
-    "start": "NODE_ENV=production node src/index.js",
+    "start": "NODE_ENV=production node --env-file=.env src/index.js",
     "build-start": "$npm_execpath run build && $npm_execpath run start"
   },
   "keywords": [],

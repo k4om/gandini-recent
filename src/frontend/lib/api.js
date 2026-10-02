@@ -53,6 +53,16 @@ export async function fetchArticles({ limit = 20, offset = 0 } = {}) {
   return data.articles
 }
 
+export async function fetchDraftArticles({ limit = 20, offset = 0 } = {}) {
+  const data = await gql(
+    `query ($limit: Int, $offset: Int) {
+      adminDraftArticles(limit: $limit, offset: $offset) { ${ARTICLE_FIELDS} }
+    }`,
+    { limit, offset }
+  )
+  return data.adminDraftArticles
+}
+
 /** Pass either { slug } or { id }. Resolves to null when not found. */
 export async function fetchArticle({ slug = null, id = null }) {
   const data = await gql(

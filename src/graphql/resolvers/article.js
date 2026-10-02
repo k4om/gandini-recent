@@ -12,6 +12,17 @@ export default {
             )
         },
 
+        adminDraftArticles(_, args, ctx) {
+            if (ctx.user?.role !== 'ADMIN') {
+                throw new Error('Admin only')
+            }
+
+            return ArticleDB.allDrafts(
+                args.limit ?? 20,
+                args.offset ?? 0
+            )
+        },
+
 
         article(_, args) {
 

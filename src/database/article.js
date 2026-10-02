@@ -11,6 +11,17 @@ function all(limit = 20, offset = 0) {
     `).all(limit, offset);
 }
 
+function allDrafts(limit = 20, offset = 0) {
+    return Database.db.prepare(`
+        SELECT *
+        FROM articles
+        WHERE status = 'DRAFT'
+        ORDER BY created_at DESC
+        LIMIT ?
+        OFFSET ?
+    `).all(limit, offset);
+}
+
 function findById(id) {
     return Database.db.prepare(`
         SELECT *
@@ -66,6 +77,7 @@ function publish(id) {
 
 export default {
     all,
+    allDrafts,
     findById,
     findBySlug,
     create,
