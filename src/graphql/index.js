@@ -13,12 +13,12 @@ const __dirname = path.dirname(__filename)
 async function loadGraphQL() {
   const schemaPath = path.join(
     __dirname,
-    './schema/**/*.graphql'
+    './schemas/**/*.graphql'
   )
 
   const resolverPath = path.join(
     __dirname,
-    './resolver/**/*.js'
+    './resolvers/**/*.js'
   )
 
 

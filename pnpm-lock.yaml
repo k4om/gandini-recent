@@ -193,6 +193,9 @@ importers:
       mercurius:
         specifier: ^16.10.1
         version: 16.10.1(graphql@16.14.2)
+      svelte-spa-router:
+        specifier: ^5.1.1
+        version: 5.1.1(svelte@5.57.1)
     devDependencies:
       '@fastify/http-proxy':
         specifier: ^11.6.3
@@ -1196,6 +1199,10 @@ packages:
   real-require@1.0.0:
     resolution: {integrity: sha512-P4nbQYQfePJxRSmY+v/KINxVucm4NF3p3s7pJveMTtom52FR4YGltUQLB8idDXwDDWW+eYrWDFbuzUnjoWHF7g==}
 
+  regexparam@2.0.2:
+    resolution: {integrity: sha512-A1PeDEYMrkLrfyOwv2jwihXbo9qxdGD3atBYQA9JJgreAx8/7rC6IUkWOw2NQlOxLp2wL0ifQbh1HuidDfYA6w==}
+    engines: {node: '>=8'}
+
   remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
 
@@ -1299,6 +1306,11 @@ packages:
   supports-color@10.2.2:
     resolution: {integrity: sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g==}
     engines: {node: '>=18'}
+
+  svelte-spa-router@5.1.1:
+    resolution: {integrity: sha512-/9PiiyS2jQIXlP+NlKRcPl/Bgwm6WTCTmJq8TZw5IShEbozwcfpX2V3YEL4lAVgJJ2Ni+ipAH7aYVEupeNwtHA==}
+    peerDependencies:
+      svelte: ^5.0.0
 
   svelte@5.57.1:
     resolution: {integrity: sha512-Uqj49lWKB+iSSnneuwiYYJ7MZgkB+eXr0LXBhv4uDuAkXqnWmq65Sxflfvp0Lc6MdKjMUxGaeOKWJqz5SNiVIA==}
@@ -2299,6 +2311,8 @@ snapshots:
 
   real-require@1.0.0: {}
 
+  regexparam@2.0.2: {}
+
   remove-trailing-separator@1.1.0: {}
 
   require-from-string@2.0.2: {}
@@ -2397,6 +2411,11 @@ snapshots:
       ansi-regex: 6.4.0
 
   supports-color@10.2.2: {}
+
+  svelte-spa-router@5.1.1(svelte@5.57.1):
+    dependencies:
+      regexparam: 2.0.2
+      svelte: 5.57.1
 
   svelte@5.57.1:
     dependencies:

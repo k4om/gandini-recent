@@ -23,8 +23,6 @@ fastify.get('/hello', async () => {
   return { message: 'Hello from REST' }
 })
 
-//// API CODE HERE
-
 if ((process.env.NODE_ENV || 'development') === 'development') {
   await fastify.register(FastifyProxy, {
     upstream: 'http://localhost:5173',
